@@ -16,7 +16,6 @@ const Layout = ({children}) => {
               <Link>
                 <Typography className={classes.brand}>amazona</Typography>
               </Link>
-                
             </NextLink>
             <div className={classes.grow}> 
 
