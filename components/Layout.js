@@ -3,12 +3,13 @@ import React from 'react'
 import NextLink from 'next/link';
 import {AppBar,Toolbar,Typography,Container, Link} from "@mui/material"
 import useStyles from "../utils/styles";
-const Layout = ({children}) => {
+const Layout = ({title,description,children}) => {
     const classes = useStyles()
   return (
     <div>
       <Head>
-        <title>Next Amazona</title>
+        <title>{title? `${title} - Next Amazona`:'Next Amazona'}</title>
+        {description && <meta name="description" content={description}></meta>}
       </Head>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
