@@ -15,10 +15,10 @@ async function connect(){
         }
         await mongoose.disconnect();
     }
-    const db=await mongoose.connect(process.env.MONGODB_URL,{
+    const db=await mongoose.connect("mongodb://localhost/next-amazona",{
         useNewUrlParser:true,
         useUnifiedTopology:true,
-        useCreateIndex:true,
+       
     })
     console.log('new connection');
     connection.isConnected=db.connections[0].readyState;
@@ -40,4 +40,4 @@ async function disconnect(){
 }
 
 const db={connect,disconnect};
-export db;
+export default db;
