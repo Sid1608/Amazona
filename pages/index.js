@@ -1,19 +1,21 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import Head from 'next/head';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
-import data from '../utils/data';
-
-export default function Home() {
+// import data from '../utils/data';
+import Product from "../models/Product"
+import db from '../utils/db'
+export default function Home(props) {
+  const {products}=props;
   return (
     <Layout>
         <div >
           <h1>Products</h1>
           <Grid container spacing={3}> 
 
-              {data.products.map((product)=>(
+              {products.map((product)=>(
                 <Grid item md={4} key={product.name}>
                       <Card>
                         <NextLink href={`/product/${product.slug}`} passHref>
@@ -45,4 +47,15 @@ export default function Home() {
     </Layout>
     
   )
+}
+
+export async function getServerSideProps(){
+  await db.connect();
+  const products=await Product.find({}).lean();
+  await db.disconnect();
+  return {
+    props:{
+      products:products.map(db.convertDocToOb),
+    }
+  }
 }
