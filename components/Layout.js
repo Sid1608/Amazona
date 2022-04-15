@@ -1,13 +1,14 @@
 import Head from 'next/head';
 import React, { useContext } from 'react'
 import NextLink from 'next/link';
-import {Switch,AppBar,CssBaseline,Toolbar,Typography,Container,ThemeProvider, Link, createMuiTheme} from "@mui/material"
-import useStyles from "../utils/styles";
 import {Store} from '../utils/Store';
+import {Badge,Switch,AppBar,CssBaseline,Toolbar,Typography,Container,ThemeProvider, Link, createMuiTheme} from "@mui/material"
+import useStyles from "../utils/styles";
+
 import Cookies from 'js-cookie';
 const Layout = ({title,description,children}) => {
   const {state,dispatch}=useContext(Store);
-  const {darkMode}=state;
+  const {darkMode,cart}=state;
   console.log(darkMode);
   const theme=createMuiTheme({
     typography:{
@@ -60,7 +61,17 @@ const Layout = ({title,description,children}) => {
                 <Switch checked={darkMode} onChange={darkModeChangeHandler}>
                 </Switch>
                   <NextLink href="/cart" passHref>
-                    <Link>Cart</Link>
+                    <Link>
+                      {cart.cartItems.length>0 ? (
+                        <Badge 
+                          color="secondary"
+                          badgeContent={cart.cartItems.length}>
+                          Cart
+                        </Badge>
+                      ):(
+                        'Cart'
+                      )}
+                    </Link>
                   </NextLink>
                   <NextLink href="/login" passHref>
                     <Link>Login</Link>

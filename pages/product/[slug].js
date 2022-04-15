@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useContext } from 'react'
 import Layout from '../../components/Layout';
 import data from '../../utils/data';
 import NextLink from 'next/link';
@@ -7,8 +7,11 @@ import { Button, Card, Grid, Link, List, ListItem, Typography } from '@mui/mater
 import useStyles from '../../utils/styles';
 import Image from 'next/image';
 import db from '../../utils/db';
+import {Store} from '../../utils/Store';
 import Product from '../../models/Product';
+import axios from 'axios';
 const ProductScreen = (props) => {
+    const {state,dispatch}=useContext(Store);
     const {product}=props;
     const classes=useStyles();
     // const router=useRouter();
@@ -16,6 +19,15 @@ const ProductScreen = (props) => {
     // const product=data.products.find(a=>a.slug===slug);
     if(!product){
         return <div>Product Not Found</div>
+    }
+    const addToCartHandler=async()=>{
+        const {data}= await axios.get(`/api/products/${product._id}`);
+        if(data.countInStock <=0){
+            alert("Sorry. Product is out of stock");
+            return;
+        }
+        dispatch({type:'CART_ADD_ITEM',payload:{...product,quantity:1}})
+    
     }
   return (
     
@@ -75,7 +87,14 @@ const ProductScreen = (props) => {
                                 </Grid>
                             </ListItem>
                             <ListItem>
-                                <Button fullWidth variant="contained" color="primary">Add to cart</Button>
+                                <Button 
+                                    fullWidth 
+                                    variant="contained" 
+                                    color="primary"
+                                    onClick={addToCartHandler}
+                                >
+                                    Add to cart
+                                </Button>
                             </ListItem>
                         </List>
                     </Card>
