@@ -10,7 +10,9 @@ import db from '../../utils/db';
 import {Store} from '../../utils/Store';
 import Product from '../../models/Product';
 import axios from 'axios';
+
 const ProductScreen = (props) => {
+    const router=useRouter();
     const {state,dispatch}=useContext(Store);
     const {product}=props;
     const classes=useStyles();
@@ -27,7 +29,7 @@ const ProductScreen = (props) => {
             return;
         }
         dispatch({type:'CART_ADD_ITEM',payload:{...product,quantity:1}})
-    
+        router.push('/cart');
     }
   return (
     
