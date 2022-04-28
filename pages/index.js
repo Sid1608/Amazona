@@ -16,12 +16,14 @@ export default function Home(props) {
           <Grid container spacing={3}> 
 
               {products.map((product)=>(
+                
                 <Grid item md={4} key={product.name}>
                       <Card>
                         <NextLink href={`/product/${product.slug}`} passHref>
                           <CardActionArea>
                             <CardMedia 
                                 Component="img" 
+                                
                                 image={product.image}
                                 title={product.name}
                                 ></CardMedia>
